@@ -15,11 +15,12 @@ load_dotenv('.env')
 intents = discord.Intents.default()
 intents.members = False
 intents.presences = False
+intents.messages = True
 
 bot = commands.Bot(command_prefix="$", intents=intents)
 # client = discord.Client(intents=intents)
 
-XMAS_DATE = date(year=(date.today().year if date.today().month < 12 and date.today().day <= 24 else date.today().year + 1), month=12, day=24)
+XMAS_DATE = date(year=(date.today().year if date.today().month <= 12 and date.today().day <= 24 else date.today().year + 1), month=12, day=24)
 countdown = XMAS_DATE - date.today()
 days_left_msg = f"Days left until Xmas: {countdown.days}"
 
@@ -43,7 +44,8 @@ async def on_ready():
 
 @bot.command()
 async def days_left_until_xmas(ctx):
-    await ctx.send(days_left_msg)
+  print("days_left_until_xmas")
+  await ctx.send(days_left_msg)
 
 
 @loop(hours=1)
@@ -87,3 +89,20 @@ async def dont_do_daily_xmas_check():
 bot.run(os.getenv('TOKEN'))
 
 # client.run(os.getenv('TOKEN'))
+
+# Update this bot to work with slash commands
+# https://discordpy.readthedocs.io/en/latest/ext/commands/slash.html
+
+# @bot.slash_command()
+# async def days_left_until_xmas(ctx):
+#     await ctx.send(days_left_msg)
+
+# @bot.slash_command()
+# async def dont_wait_for_xmas_time(ctx):
+#   await wait_for_xmas_cancel()
+
+# @bot.slash_command()
+# async def dont_do_daily_xmas_check(ctx):
+#   await daily_xmas_check_cancel()
+
+# bot.run(os.getenv('TOKEN'))
